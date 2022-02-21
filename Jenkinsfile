@@ -66,5 +66,5 @@ node {
     //         yaxisMaximum: '',
     //         yaxisMinimum: ''
     //         }
-    // }
+    }
 }
