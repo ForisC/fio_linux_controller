@@ -10,6 +10,7 @@ node {
         // remote.user = userName
         remote.identityFile = identity
         stage("Env Preparing"){
+            git branch: 'main', url: 'https://github.com/foris323/fio_liunx_controller.git'
             sshCommand remote: remote, command: "sudo pkill fio || true"
             // sshCommand remote: remote, command: "sudo ps -x|grep fio>p || true"
             // sshCommand remote: remote, command: "sudo cat p"
