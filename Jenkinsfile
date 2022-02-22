@@ -14,7 +14,7 @@ node {
             sshCommand remote: remote, command: "sudo ps -x|grep fio>p || true"
             sshCommand remote: remote, command: "sudo cat p"
             sshCommand remote: remote, command: "sudo find . -empty -name p | grep ."
-            sshCommand remote: remote, command: "sudo yum -y install fio"
+            // sshCommand remote: remote, command: "sudo yum -y install fio"
         }
         
         
