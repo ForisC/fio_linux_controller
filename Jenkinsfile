@@ -11,9 +11,9 @@ node {
         remote.identityFile = identity
         stage("Env Preparing"){
             sshCommand remote: remote, command: "sudo pkill fio || true"
-            sshCommand remote: remote, command: "sudo ps -x|grep fio>p || true"
-            sshCommand remote: remote, command: "sudo cat p"
-            sshCommand remote: remote, command: "sudo find . -empty -name p | grep ."
+            // sshCommand remote: remote, command: "sudo ps -x|grep fio>p || true"
+            // sshCommand remote: remote, command: "sudo cat p"
+            // sshCommand remote: remote, command: "sudo find . -empty -name p | grep ."
             // sshCommand remote: remote, command: "sudo yum -y install fio"
         }
         
