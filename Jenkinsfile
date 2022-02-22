@@ -1,13 +1,13 @@
 def remote = [:]
 remote.name = "node-1"
 remote.host = params.client
-remote.user = 'ec2-user'
+remote.user = 'ubuntu'
 remote.allowAnyHosts = true
 currentBuild.description = env.Description
 
 node {
     withCredentials([sshUserPrivateKey(credentialsId: 'ubuntu_clinet', keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'userName')]) {
-        remote.user = userName
+        // remote.user = userName
         remote.identityFile = identity
         stage("Env Preparing"){
             sshCommand remote: remote, command: "sudo pkill fio || true"
@@ -19,19 +19,19 @@ node {
         
         
         stage("FIO random read") {
-            command = "sudo fio -filename=${env.drive} -direct=1 -iodepth 1 -thread -rw=randread -ioengine=psync -bs=16k -size=${env.TestSize}G -numjobs=30 -runtime=1000 -group_reporting -name=randread --output=randread.log --output-format=json"
+            command = "sudo fio -filename=${env.drive} -direct=1 -iodepth 1 -thread -rw=randread -ioengine=psync -bs=16k -size=${env.TestSize} -numjobs=30 -runtime=1000 -group_reporting -name=randread --output=randread.log --output-format=json"
             sshCommand remote: remote, command: command
         }
         stage("FIO sequential read") {
-            command = "sudo fio -filename=${env.drive} -direct=1 -iodepth 1 -thread -rw=read -ioengine=psync -bs=16k -size=${env.TestSize}G -numjobs=30 -runtime=1000 -group_reporting -name=read --output=read.log --output-format=json"
+            command = "sudo fio -filename=${env.drive} -direct=1 -iodepth 1 -thread -rw=read -ioengine=psync -bs=16k -size=${env.TestSize} -numjobs=30 -runtime=1000 -group_reporting -name=read --output=read.log --output-format=json"
             sshCommand remote: remote, command: command
         }
         stage("FIO random write") {
-            command = "sudo fio -filename=${env.drive} -direct=1 -iodepth 1 -thread -rw=randwrite -ioengine=psync -bs=16k -size=${env.TestSize}G -numjobs=30 -runtime=1000 -group_reporting -name=randwrite --output=randwrite.log --output-format=json"
+            command = "sudo fio -filename=${env.drive} -direct=1 -iodepth 1 -thread -rw=randwrite -ioengine=psync -bs=16k -size=${env.TestSize} -numjobs=30 -runtime=1000 -group_reporting -name=randwrite --output=randwrite.log --output-format=json"
             sshCommand remote: remote, command: command
         }
         stage("FIO sequential write") {
-            command = "sudo fio -filename=${env.drive} -direct=1 -iodepth 1 -thread -rw=write -ioengine=psync -bs=16k -size=${env.TestSize}G -numjobs=30 -runtime=1000 -group_reporting -name=write --output=write.log --output-format=json"
+            command = "sudo fio -filename=${env.drive} -direct=1 -iodepth 1 -thread -rw=write -ioengine=psync -bs=16k -size=${env.TestSize} -numjobs=30 -runtime=1000 -group_reporting -name=write --output=write.log --output-format=json"
             sshCommand remote: remote, command: command
         }
         stage("collect data"){
