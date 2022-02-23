@@ -1,21 +1,25 @@
 def remote = [:]
 remote.name = "node-1"
 remote.host = params.client
-remote.user = 'ubuntu'
 remote.allowAnyHosts = true
 currentBuild.description = env.Description
 
 node {
-    withCredentials([sshUserPrivateKey(credentialsId: 'ubuntu_clinet', keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'userName')]) {
-        // remote.user = userName
+    withCredentials(
+        [
+            sshUserPrivateKey(
+                credentialsId: 'linux_clinet',
+                keyFileVariable: 'identity',
+                passphraseVariable: '',
+                usernameVariable: 'userName'
+            )
+        ]
+    ) {
+        remote.user = userName
         remote.identityFile = identity
         stage("Env Preparing"){
             git branch: 'main', url: 'https://github.com/foris323/fio_linux_controller.git'
             sshCommand remote: remote, command: "sudo pkill fio || true"
-            // sshCommand remote: remote, command: "sudo ps -x|grep fio>p || true"
-            // sshCommand remote: remote, command: "sudo cat p"
-            // sshCommand remote: remote, command: "sudo find . -empty -name p | grep ."
-            // sshCommand remote: remote, command: "sudo yum -y install fio"
         }
         
         
