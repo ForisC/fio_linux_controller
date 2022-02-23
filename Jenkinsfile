@@ -8,7 +8,7 @@ node {
     withCredentials(
         [
             sshUserPrivateKey(
-                credentialsId: 'linux_clinet',
+                credentialsId: 'linux_client',
                 keyFileVariable: 'identity',
                 passphraseVariable: '',
                 usernameVariable: 'userName'
